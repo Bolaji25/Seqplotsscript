@@ -1,0 +1,20 @@
+library(methods)
+library(IRanges)
+library(BSgenome)
+library(digest)
+library(rtracklayer)
+library(GenomicRanges)
+library(seqplots)
+#to check the chromosome name version
+dsmf<-import("./Bigwiggle/sm_allCs_combined_M.bw")
+#to change chromosome name.
+seqlevels(dsmf)<-paste0("chr", seqlevels(dsmf))
+export(dsmf, "sm_allCs_combined_M_chr.bw", "bw")
+plotrex<-getPlotSetArray(tracks = "./Bigwiggle/sm_allCs_combined_M_chr.bw",features = "./featurefiles/rexsitesce11.gtf", 
+                         refgenome = "ce11", bin = 10L, rm0 = FALSE, ignore_strand = TRUE, xmin = 1000L, xmax = 1000L, 
+                         xanchored = 2000L, type = "mf", add_heatmap = TRUE, verbose = FALSE, stat = "median", 
+                         lvl1m = message, lvl2m = message)
+#load(system.file("extdata","precalc_plotset.Rdata", package="seqplots"))
+plot(plotrex, main='methylation footprint', xlab='Distance to rex site[bp]',ylab='dsmf (1-methylation)', 
+     error.estimates = TRUE, cex.axis = 14, cex.lab = 16, cex.main = 20, cex.legend = 10,ylim=c(0.3,0.8))
+#plotHeatmap(plotrex, main="methylation footprint", labels= NA, legend = TRUE, autoscale= TRUE )
