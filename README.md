@@ -1,2 +1,2 @@
 # Seqplotsscript
-practice with the seqplots package
+Using the seqplots package
